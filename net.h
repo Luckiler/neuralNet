@@ -1,54 +1,61 @@
 #ifndef NET_H
 #define NET_H
 
-
 #include "neuron.h"
 
 #include <vector>
 #include <cstdlib>
 
+class net {
+ public:
+  // % of mods
+  int changeChance = 60;
+  int changeQnt = 20;
 
-class net
-{
-    public:
+  long int ticksLived = 0;
+  float fitness = 0;
 
-        //both are int because of % calculations
-        //probability in x/1000
-        int changeChance = 600;
-        int changeQnt = 50;
+  float aiPosX = 0;
+  float aiPosY = 0;
+  float aiColorR = 0.1;
+  float aiColorG = 0.1;
+  float aiColorB = 0.1;
 
+  // the actual net structure
+  std::vector<neuron*> neurons;
 
-        //the actual net structure
-        std::vector<neuron*> neurons;
+  // input layer
+  std::vector<float> inputLayer;
+  // output layer
+  std::vector<neuron*> outputLayer;
 
-        //input layer
-        std::vector<float> inputLayer;
-        //output layer
-        std::vector<neuron*> outputLayer;
+  net();
 
-        net();
+  /**
+   * Creates the neural network.
+   *
+   * @param NbroNeurons - The number of hidden layers
+   * @param NbroInputs - The number of possible inputs the network can get
+   * values from
+   * @param NbroOutputs - The number of possible outputs the network can
+   * generate
+   */
+  void create(int NbroNeurons, int NbroInputs, int NbroOutputs);
+  /**
+          Initializes all the values of the neural network
+  */
+  void initialize();
 
-        /**
-         * Creates the neural network.
-         *
-         * @param NbroNeurons - The number of hidden layers
-         * @param NbroInputs - The number of possible inputs the network can get
-         * values from
-         * @param NbroOutputs - The number of possible outputs the network can
-         * generate
-         */
-        void create(int NbroNeurons, int NbroInputs, int NbroOutputs);
-/**
-        Initializes all the values of the neural network
-*/
-        void initialize();
+  void activate();
 
-        void activate();
+  void updateInput(float newInputValue, int inputId);
 
-        double getOutput(int i);
+  double getOutput(int i);
+  double getFitness();
 
-    private:
+  void evolve();
 
+ private:
 };
 
 #endif
